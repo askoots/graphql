@@ -1,6 +1,6 @@
 # graphql
 
-Sign in with your intra credentials and see your results.
+Go to https://askoots.github.io/graphql/ and sign in with your intra credentials to see your results.
 
 
 ## 🧭 Auditing directions 
@@ -17,9 +17,9 @@ git clone https://01.kood.tech/git/aotsalt/graphql.git
 
 ## 🛠 Run the program 🏃
 
-- Open index.html with Live Server
+- Open index.html with Live Server or go to https://askoots.github.io/graphql/
 
 
 ## 💁‍♂️ Author:
 
-- [Asko Otsalt](https://01.kood.tech/git/aotsalt)# graphql
+- [Asko Otsalt](https://01.kood.tech/git/aotsalt)
