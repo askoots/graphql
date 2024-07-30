@@ -22,4 +22,4 @@ git clone https://01.kood.tech/git/aotsalt/graphql.git
 
 ## 💁‍♂️ Author:
 
-- [Asko Otsalt](https://01.kood.tech/git/aotsalt)# graphql
+- [Asko Otsalt](https://01.kood.tech/git/aotsalt)
