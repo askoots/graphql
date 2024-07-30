@@ -8,6 +8,7 @@ body {
    justify-content: center;
    min-height: 100vh;
 }
+
 h1 {
    padding: 1rem;
    font-weight: bold;
@@ -15,6 +16,7 @@ h1 {
    color: #ffffff;
    text-align: center;
 }
+
 .loginWrapper {
    display: flex;
    justify-content: center;
@@ -22,6 +24,7 @@ h1 {
    height: 100vh;
    flex-direction: column;
 }
+
 #loginForm, .box {
    display: inline-block;
    background-color: #292929;
@@ -30,11 +33,13 @@ h1 {
    padding: 60px;
    margin: 10px;
 }
+
 .error {
    margin-top: 0.5rem;
    color: #e74c3c;
    font-size: 14px;
 }
+
 input {
    border: none;
    background-color: #444444;
@@ -45,6 +50,7 @@ input {
    margin: 10px 0;
    width: 100%;
 }
+
 button {
    cursor: pointer;
    padding: 10px 20px;
@@ -58,18 +64,22 @@ button {
    margin-top: 20px;
    width: 100%;
 }
+
 button:disabled {
    background-color: #777777;
    box-shadow: none;
    color: #aaaaaa;
 }
+
 button:hover {
    background-color: #2a5f9e;
    transform: scale(1.05);
 }
+
 button:disabled:hover {
    cursor: default;
 }
+
 .profileWrapper {
    display: flex;
    flex-direction: column;
@@ -78,15 +88,18 @@ button:disabled:hover {
    width: 90%;
    position: relative;
 }
+
 .logoutButton {
    background-color: #3a7bd5;
    color: #ffffff;
    cursor: pointer;
    margin-bottom: 10px;
 }
+
 .logoutButton:hover {
    background-color: #2a5f9e;
 }
+
 .box {
    background-color: #292929;
    border-radius: 20px;
@@ -95,16 +108,19 @@ button:disabled:hover {
    display: inline-block;
    width: 100%;
 }
+
 #chart {
    width: 100%;
    max-width: 1000px;
    height: 500px;
    margin: 0 auto;
 }
+
 #xpGraph {
    width: 100%;
    height: auto;
 }
+
 svg text, canvas text {
    fill: #ffff00;
    color: #ffff00; 

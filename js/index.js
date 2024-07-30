@@ -3,6 +3,7 @@ import {
     createXpByProjectGraph,
     createAuditDetailsGraph,
 } from "./profile.js";
+
 // Function to load user profile data
 const loadUserProfile = async () => {
     // Retrieve JWT token from session storage
@@ -11,14 +12,17 @@ const loadUserProfile = async () => {
         // Show profile and hide login wrapper if user is authenticated
         document.getElementById("loginWrapper").style.display = "none";
         document.getElementById("profileWrapper").style.display = "block";
+
         // Set up logout button functionality
         document.getElementById("logoutButton").addEventListener("click", () => {
             sessionStorage.removeItem("JWT");
             window.location.href = "/";
         });
+
         // Function to fetch and display user data
         const showData = async () => {
             console.log("Fetching user data...");
+
             // Fetch user data, user progress, XP by project, and audit details
             const userData = await getUserData(userToken);
             const userProgress = await getUserProgress(userToken);
@@ -38,6 +42,7 @@ const loadUserProfile = async () => {
         showData();
     }
 };
+
 // Fetch user data from the server
 const getUserData = async (userToken) => {
     const query = `{
@@ -66,8 +71,10 @@ const getUserData = async (userToken) => {
     const queryBody = {
         query,
     };
+
     const results = await getQueryResults(queryBody, userToken);
     const totalXp = results.data.user[0].transactions_aggregate.aggregate.sum.amount;
+
     const userData = {
         username: results.data.user[0].login,
         firstName: results.data.user[0].firstName,
@@ -80,8 +87,10 @@ const getUserData = async (userToken) => {
         auditXpReceived: results.data.user[0].totalDown,
         totalXp,
     };
+
     return userData;
 };
+
 // Fetch XP by project data from the server
 const getXpByProject = async (userToken) => {
     const query = `
@@ -104,25 +113,32 @@ const getXpByProject = async (userToken) => {
             type: "xp",
         },
     };
+
     const results = await getQueryResults(queryBody, userToken);
+
     // Process transaction data to extract XP by project
     const pathStart = "/johvi/div-01/";
+
     const xpByProjectData = results.data.transaction.map((transaction) => {
         const updatedPath = transaction.path.replace(pathStart, "");
         return { ...transaction, path: updatedPath };
     });
+
     // Aggregate XP amounts by project path
     let data = xpByProjectData.reduce((acc, curr) => {
         const item = curr.path.split("/")[0];
         acc.set(item, acc.get(item) ? acc.get(item) + curr.amount : curr.amount);
         return acc;
     }, new Map());
+
     data = Array.from(data).map(([key, value]) => {
         return { path: key, amount: value };
     });
     data.sort((a, b) => a.amount - b.amount);
+
     return data;
 };
+
 // Fetch user progress data from the server
 const getUserProgress = async (userToken) => {
     const query = `
@@ -140,12 +156,16 @@ const getUserProgress = async (userToken) => {
             }
         }
     `;
+
     const queryBody = {
         query: query,
     };
+
     const results = await getQueryResults(queryBody, userToken);
+
     return results.data.transaction;
 };
+
 // Fetch audit details data from the server
 const getAuditDetails = async (userToken) => {
     const query = `
@@ -157,30 +177,38 @@ const getAuditDetails = async (userToken) => {
             }
         }
     `;
+
     const queryBody = {
         query,
     };
+
     const results = await getQueryResults(queryBody, userToken);
+
     // Process audit details data
     const auditDetailsData = results.data.transaction.map((transaction) => ({
         amount: transaction.amount,
         type: transaction.type,
         path: transaction.path,
     }));
+
     // Aggregate audit details by type (up/down)
     let data = auditDetailsData.reduce((acc, curr) => {
         const item = curr.type === 'up' ? 'Audits Earned' : 'Audits Received';
         acc.set(item, acc.get(item) ? acc.get(item) + curr.amount : curr.amount);
         return acc;
     }, new Map());
+
     data = Array.from(data).map(([key, value]) => {
         return { path: key, amount: value };
     });
+
     return data;
 };
+
 // Perform GraphQL query and return results
 const getQueryResults = async (queryBody, userToken) => {
     const url = "https://01.kood.tech/api/graphql-engine/v1/graphql";
+
     const options = {
         method: "POST",
         headers: {
@@ -189,6 +217,7 @@ const getQueryResults = async (queryBody, userToken) => {
         },
         body: JSON.stringify(queryBody),
     };
+
     try {
         const response = await fetch(url, options);
         if (response.ok) {
@@ -202,6 +231,7 @@ const getQueryResults = async (queryBody, userToken) => {
         console.error(error);
     }
 };
+
 // Create and display user data on the profile page
 const createUserData = (data) => {
     document.getElementById("userDetails").innerHTML = `
@@ -212,6 +242,7 @@ const createUserData = (data) => {
         <p>Location: ${data.attrs.addressCity}, ${data.attrs.addressCountry}</p>
     `;
 };
+
 // Create and display total XP amount information
 const createXpAmountInfo = (totalXp) => {
     document.getElementById("xpAmountInfo").innerHTML = `
@@ -219,6 +250,7 @@ const createXpAmountInfo = (totalXp) => {
         <p>Total: ${format2(totalXp, true)}</p>
     `;
 };
+
 // Create and display audit details
 const createAuditDetails = (data) => {
     document.getElementById("auditDetails").innerHTML = `
@@ -227,6 +259,7 @@ const createAuditDetails = (data) => {
         <svg id="auditGraph" width="100%" height="100%"></svg>
     `;
 };
+
 // Format numbers with optional unit (kB or MB)
 const format2 = (number, unit = false) => {
     number = Number(number);
@@ -247,11 +280,13 @@ const format2 = (number, unit = false) => {
     }
     return rounded + (unit ? unit : "");
 };
+
 // Initialize the application on window load
 window.onload = () => {
     addLoginFunctionality();
     loadUserProfile();
 };
+
 // Attempt login with provided credentials
 const attemptLogin = async (username, password) => {
     console.log("Attempting to log in with credentials:", username);
@@ -264,6 +299,7 @@ const attemptLogin = async (username, password) => {
             Authorization: "Basic " + btoa(`${username}:${password}`),
         },
     };
+
     try {
         const response = await fetch(url, options);
         console.log("Login response received:", response);
@@ -272,6 +308,7 @@ const attemptLogin = async (username, password) => {
         console.error("Login error:", error);
     }
 };
+
 // Handle login response from the server
 const handleLoginResponse = async (response) => {
     if (response.ok) {
@@ -283,6 +320,7 @@ const handleLoginResponse = async (response) => {
             "Login credentials invalid, please try again";
     }
 };
+
 // Add functionality to the login form
 const addLoginFunctionality = () => {
     const loginForm = document.getElementById("loginForm");
@@ -290,6 +328,7 @@ const addLoginFunctionality = () => {
     const password = document.getElementById("password");
     const inputs = document.querySelectorAll("input");
     const loginButton = document.getElementById("loginButton");
+
     // Enable login button only if both fields are filled
     inputs.forEach((input) => {
         input.addEventListener("input", () => {
@@ -302,9 +341,11 @@ const addLoginFunctionality = () => {
             }
         });
     });
+
     // Handle form submission
     loginForm.addEventListener("submit", (event) => {
         event.preventDefault();
+
         // Validate form inputs
         inputs.forEach((input) => {
             if (!input.value) {
@@ -318,4 +359,5 @@ const addLoginFunctionality = () => {
         }
     });
 };
+
 addLoginFunctionality();
