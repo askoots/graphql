@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Intra</title>
+</head>
+<body>
+    <div id="content">
+        
+        <div id="loginWrapper" class="loginWrapper">
+            <form id="loginForm" class="formBox">
+                <h1>Login</h1>
+                <input id="username" name="username" placeholder="Username or Email" required>
+                <div class="error">
+                    <span id="username-error"></span>
+                </div>
+                <input id="password" name="password" placeholder="Password" type="password" maxlength="30" required>
+                <div class="error">
+                    <span id="password-error"></span>
+                </div>
+                <button id="loginButton" type="submit" disabled>Log in</button>
+            </form>
+        </div>
+
+        <div id="profileWrapper" class="profileWrapper" style="display: none;">
+            <button id="logoutButton" class="logoutButton">Log out</button>
+            <div id="userInfo" class="box">
+                <div id="userDetails"></div>
+            </div>
+            <div id="xpAmountInfo" class="box"></div>
+            <div id="auditDetails" class="box">
+                <h1>Audit Details</h1>
+                <svg id="auditGraph" width="100%" height="100%"></svg>
+            </div>
+            <div id="progressChart" class="box">
+                <h1>Progress</h1> 
+                <p id="dateInfo"></p>
+                <div id="chart"></div>
+            </div>
+            <div id="xpChart" class="box">
+                <h1>XP by Task</h1>
+                <svg id="xpGraph" width="100%" height="100%"></svg>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/index.js" type="module"></script>
+</body>
+</html>
